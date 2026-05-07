@@ -31,24 +31,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  bootstrap:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    entrypoint: ["sh", "-c"]
-    command: ["echo === BOOTSTRAP-CEO BEGIN === && pnpm paperclipai auth bootstrap-ceo || true; echo === BOOTSTRAP-CEO END ==="]
-    environment:
-      DATABASE_URL: postgres://paperclip:paperclip@db:5432/paperclip
-      PAPERCLIP_DEPLOYMENT_MODE: "authenticated"
-      PAPERCLIP_DEPLOYMENT_EXPOSURE: "${PAPERCLIP_DEPLOYMENT_EXPOSURE:-public}"
-      PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://localhost:3100}"
-      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set}"
-    volumes:
-      - paperclip-data:/paperclip
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: "no"
 volumes:
   pgdata:
   paperclip-data:
